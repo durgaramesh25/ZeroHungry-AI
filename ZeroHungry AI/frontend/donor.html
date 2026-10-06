@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Donate Food – ZeroHungry AI</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════
+         NAVIGATION BAR (same on every page)
+    ═══════════════════════════════════════ -->
+    <header class="navbar">
+        <div class="navbar-logo">
+            🍱 ZeroHungry <span class="logo-highlight">AI</span>
+        </div>
+        <nav class="navbar-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="donor.html" class="nav-link active">Donate Food</a>
+            <a href="ngo.html"   class="nav-link">Find Food</a>
+        </nav>
+    </header>
+
+    <!-- ═══════════════════════════════════════
+         PAGE HEADER
+    ═══════════════════════════════════════ -->
+    <div class="page-header">
+        <h1>🍽️ Donate Food</h1>
+        <p>Fill in the details below. Our AI will analyze the food 
+           and match it with nearby NGOs.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         DONATION FORM
+         id="donationForm" is used by script.js
+         to find and handle this form.
+    ═══════════════════════════════════════ -->
+    <main class="form-page">
+        <form class="donation-form" id="donationForm" novalidate>
+
+            <!-- ── SECTION 1: DONOR INFO ─────────────────── -->
+            <div class="form-section">
+                <h2 class="form-section-title">
+                    <span class="form-section-icon">👤</span> Donor Information
+                </h2>
+
+                <div class="form-group">
+                    <label for="donorName">Donor Name <span class="required">*</span></label>
+                    <input
+                        type="text"
+                        id="donorName"
+                        name="donorName"
+                        placeholder="e.g. Raj's Restaurant or Your Name"
+                        autocomplete="name"
+                    />
+                    <!-- Error message shown by script.js when field is empty -->
+                    <span class="field-error" id="error-donorName"></span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contactNumber">Contact Number <span class="required">*</span></label>
+                        <input
+                            type="tel"
+                            id="contactNumber"
+                            name="contactNumber"
+                            placeholder="e.g. 9876543210"
+                            maxlength="10"
+                        />
+                        <span class="field-error" id="error-contactNumber"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Pickup Location <span class="required">*</span></label>
+                        <input
+                            type="text"
+                            id="location"
+                            name="location"
+                            placeholder="e.g. MG Road, Bengaluru"
+                        />
+                        <span class="field-error" id="error-location"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── SECTION 2: FOOD DETAILS ───────────────── -->
+            <div class="form-section">
+                <h2 class="form-section-title">
+                    <span class="form-section-icon">🥘</span> Food Details
+                </h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="foodName">Food Name <span class="required">*</span></label>
+                        <input
+                            type="text"
+                            id="foodName"
+                            name="foodName"
+                            placeholder="e.g. Vegetable Biryani"
+                        />
+                        <span class="field-error" id="error-foodName"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="foodCategory">Food Category <span class="required">*</span></label>
+                        <!-- Dropdown (<select>) lets the user pick from a list -->
+                        <select id="foodCategory" name="foodCategory">
+                            <option value="">-- Select Category --</option>
+                            <option value="Cooked Meal">Cooked Meal</option>
+                            <option value="Baked Goods">Baked Goods</option>
+                            <option value="Raw Vegetables">Raw Vegetables</option>
+                            <option value="Fruits">Fruits</option>
+                            <option value="Dairy">Dairy</option>
+                            <option value="Packaged Food">Packaged Food</option>
+                            <option value="Beverages">Beverages</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <span class="field-error" id="error-foodCategory"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="quantity">Quantity <span class="required">*</span></label>
+                        <input
+                            type="text"
+                            id="quantity"
+                            name="quantity"
+                            placeholder="e.g. 5 kg or 30 packets"
+                        />
+                        <span class="field-error" id="error-quantity"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="servings">Number of People It Can Serve <span class="required">*</span></label>
+                        <input
+                            type="number"
+                            id="servings"
+                            name="servings"
+                            placeholder="e.g. 20"
+                            min="1"
+                        />
+                        <span class="field-error" id="error-servings"></span>
+                    </div>
+                </div>
+
+                <!-- Radio buttons: user picks ONE option from a group -->
+                <div class="form-group">
+                    <label>Preparation Type <span class="required">*</span></label>
+                    <div class="radio-group" id="prepTypeGroup">
+                        <label class="radio-option">
+                            <input type="radio" name="prepType" value="Cooked" />
+                            <span class="radio-box">🍲 Cooked</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="prepType" value="Baked" />
+                            <span class="radio-box">🥐 Baked</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="prepType" value="Raw" />
+                            <span class="radio-box">🥬 Raw</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="prepType" value="Packaged" />
+                            <span class="radio-box">📦 Packaged</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="prepType" value="Other" />
+                            <span class="radio-box">🍱 Other</span>
+                        </label>
+                    </div>
+                    <span class="field-error" id="error-prepType"></span>
+                </div>
+            </div>
+
+            <!-- ── SECTION 3: DATES & TIMES ──────────────── -->
+            <div class="form-section">
+                <h2 class="form-section-title">
+                    <span class="form-section-icon">🕐</span> Dates & Times
+                </h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="prepDateTime">Preparation Date & Time <span class="required">*</span></label>
+                        <!-- datetime-local shows both a date picker and a time picker -->
+                        <input
+                            type="datetime-local"
+                            id="prepDateTime"
+                            name="prepDateTime"
+                        />
+                        <span class="field-error" id="error-prepDateTime"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expiryDateTime">Expected Expiry Date & Time <span class="required">*</span></label>
+                        <input
+                            type="datetime-local"
+                            id="expiryDateTime"
+                            name="expiryDateTime"
+                        />
+                        <span class="field-error" id="error-expiryDateTime"></span>
+                    </div>
+                </div>
+
+                <!-- Hint text to help the user -->
+                <p class="form-hint">
+                    💡 Tip: For cooked food, typical safe window is 4–6 hours
+                    at room temperature, or up to 24 hours if refrigerated.
+                </p>
+            </div>
+
+            <!-- ── SECTION 4: FOOD IMAGE ──────────────────── -->
+            <div class="form-section">
+                <h2 class="form-section-title">
+                    <span class="form-section-icon">📷</span> Food Image
+                </h2>
+
+                <div class="form-group">
+                    <label for="foodImage">Upload Food Photo
+                        <span class="label-hint">(helps AI assess freshness)</span>
+                    </label>
+
+                    <!-- Custom file upload area – styled by CSS -->
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <input
+                            type="file"
+                            id="foodImage"
+                            name="foodImage"
+                            accept="image/*"
+                            class="file-input"
+                        />
+                        <div class="file-upload-label" id="fileUploadLabel">
+                            <span class="file-icon">📁</span>
+                            <span id="fileNameDisplay">Click to upload or drag & drop</span>
+                            <span class="file-hint">PNG, JPG, JPEG up to 5 MB</span>
+                        </div>
+                    </div>
+
+                    <!-- Preview of the selected image – hidden until file is chosen -->
+                    <div class="image-preview-container hidden" id="imagePreviewContainer">
+                        <img id="imagePreview" src="" alt="Food preview" class="image-preview" />
+                        <button type="button" class="remove-image-btn" id="removeImageBtn">
+                            ✕ Remove
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── FORM ACTION BUTTONS ────────────────────── -->
+            <div class="form-actions">
+                <button type="button" class="btn btn-outline" id="resetFormBtn">
+                    🔄 Clear Form
+                </button>
+                <!-- The "Analyze Food" button submits the form -->
+                <button type="submit" class="btn btn-primary btn-large" id="analyzeBtn">
+                    🤖 Analyze Food
+                </button>
+            </div>
+
+            <!-- Success / Error message shown after submission -->
+            <!-- JavaScript will remove the "hidden" class to show this -->
+            <div class="form-message hidden" id="formMessage"></div>
+
+        </form>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">🍱 ZeroHungry AI</div>
+            <p class="footer-copy">© 2024 ZeroHungry AI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

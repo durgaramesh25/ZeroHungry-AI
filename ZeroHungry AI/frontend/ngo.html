@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Available Food – ZeroHungry AI</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════
+         NAVIGATION BAR
+    ═══════════════════════════════════════ -->
+    <header class="navbar">
+        <div class="navbar-logo">
+            🍱 ZeroHungry <span class="logo-highlight">AI</span>
+        </div>
+        <nav class="navbar-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="donor.html" class="nav-link">Donate Food</a>
+            <a href="ngo.html"   class="nav-link active">Find Food</a>
+        </nav>
+    </header>
+
+    <!-- ═══════════════════════════════════════
+         PAGE HEADER
+    ═══════════════════════════════════════ -->
+    <div class="page-header">
+        <h1>🏢 Available Food Donations</h1>
+        <p>Browse food available near you. Accept a donation to claim it 
+           for your community.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         FILTER / SEARCH BAR
+         Lets NGOs filter by category or location.
+         Filtering logic will be added in a later step.
+    ═══════════════════════════════════════ -->
+    <div class="filter-bar">
+        <div class="filter-group">
+            <input
+                type="text"
+                id="dashSearch"
+                class="filter-input"
+                placeholder="🔍 Search by food name or location…"
+            />
+        </div>
+        <div class="filter-group">
+            <select id="dashCategory" class="filter-select">
+                <option value="">All Categories</option>
+                <option value="Cooked Meal">Cooked Meal</option>
+                <option value="Baked Goods">Baked Goods</option>
+                <option value="Raw Vegetables">Raw Vegetables</option>
+                <option value="Fruits">Fruits</option>
+                <option value="Dairy">Dairy</option>
+                <option value="Packaged Food">Packaged Food</option>
+                <option value="Beverages">Beverages</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <select id="dashFreshness" class="filter-select">
+                <option value="">All Statuses</option>
+                <option value="Fresh">Fresh ✅</option>
+                <option value="Expiring Soon">Expiring Soon ⚠️</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         DONATION CARDS GRID
+         Each card = one food donation listing.
+         In a later step these will be loaded
+         dynamically from the Spring Boot API.
+         For now they are hardcoded HTML so you
+         can see exactly how the layout looks.
+    ═══════════════════════════════════════ -->
+   <main class="cards-page" id="ngoDashboard">
+
+        <!-- ── Summary bar above the cards ── -->
+        <div class="results-summary">
+            <span id="resultsCount">Showing 4 donations</span>
+            <span class="results-hint">Connect to backend to see live data</span>
+        </div>
+
+        <!-- ── Cards grid container ── -->
+        <div class="cards-grid" id="dashCardsGrid">
+
+        
+        </div>
+        <!-- end .cards-grid -->
+
+        <!-- Shown when no cards match the filter -->
+        <div class="no-results hidden" id="noResults">
+            <div class="no-results-icon">🔍</div>
+            <h3>No donations found</h3>
+            <p>Try changing your search or filter options.</p>
+        </div>
+
+    </main>
+
+    <!-- Toast notification – pops up after Accept / Reject -->
+    <!-- JavaScript will fill the text and show/hide this -->
+    <div class="toast hidden" id="toast"></div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">🍱 ZeroHungry AI</div>
+            <p class="footer-copy">© 2024 ZeroHungry AI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

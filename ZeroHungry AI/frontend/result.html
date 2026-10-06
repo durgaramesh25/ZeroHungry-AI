@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analysis Result – ZeroHungry AI</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════
+         NAVIGATION BAR
+    ═══════════════════════════════════════ -->
+    <header class="navbar">
+        <div class="navbar-logo">
+            🍱 ZeroHungry <span class="logo-highlight">AI</span>
+        </div>
+        <nav class="navbar-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="donor.html" class="nav-link">Donate Food</a>
+            <a href="ngo.html"   class="nav-link">Find Food</a>
+        </nav>
+    </header>
+
+    <!-- ═══════════════════════════════════════
+         PAGE HEADER
+    ═══════════════════════════════════════ -->
+    <div class="page-header">
+        <h1>🤖 AI Food Analysis Result</h1>
+        <p>Here is the freshness and safety report for your submitted food donation.</p>
+    </div>
+
+    <main class="result-page">
+
+        <!-- ═══════════════════════════════════════
+             LOADING STATE
+             Shown while waiting for AI response.
+             JavaScript hides this once result loads.
+        ═══════════════════════════════════════ -->
+        <div class="result-loading" id="resultLoading">
+            <div class="spinner"></div>
+            <p>Analyzing food freshness…</p>
+        </div>
+
+        <!-- ═══════════════════════════════════════
+             RESULT CONTENT
+             Hidden by default – shown by JS once
+             the analysis data is ready.
+        ═══════════════════════════════════════ -->
+        <div class="result-content hidden" id="resultContent">
+
+            <!-- ── TOP SUMMARY CARD ──────────────────────
+                 Large visual score at the top of the page.
+            ─────────────────────────────────────────── -->
+            <div class="result-summary-card" id="resultSummaryCard">
+
+                <!-- Food name passed from donor form -->
+                <div class="result-food-name" id="resultFoodName">
+                    Vegetable Biryani
+                </div>
+
+                <!-- Big circular score dial -->
+                <div class="score-circle-container">
+                    <div class="score-circle" id="scoreCircle">
+                        <span class="score-number" id="scoreNumber">85</span>
+                        <span class="score-label">/ 100</span>
+                    </div>
+                    <div class="score-title">Freshness Score</div>
+                </div>
+
+                <!-- Status badge – color changes based on score -->
+                <div class="status-badge" id="statusBadge">
+                    ✅ Fresh &amp; Safe to Donate
+                </div>
+
+            </div>
+            <!-- end result-summary-card -->
+
+            <!-- ── DETAIL CARDS GRID ──────────────────────
+                 Four info cards showing key analysis data.
+            ─────────────────────────────────────────── -->
+            <div class="result-details-grid">
+
+                <!-- Card 1: Freshness Status -->
+                <div class="result-detail-card">
+                    <div class="result-detail-icon">🌿</div>
+                    <div class="result-detail-title">Freshness Status</div>
+                    <div class="result-detail-value" id="freshnessStatus">
+                        Fresh
+                    </div>
+                    <div class="result-detail-sub">
+                        Based on prep time &amp; food type
+                    </div>
+                </div>
+
+                <!-- Card 2: Estimated Expiry -->
+                <div class="result-detail-card">
+                    <div class="result-detail-icon">⏰</div>
+                    <div class="result-detail-title">Estimated Expiry</div>
+                    <div class="result-detail-value" id="estimatedExpiry">
+                        Today, 8:00 PM
+                    </div>
+                    <div class="result-detail-sub">
+                        Consume or distribute before this time
+                    </div>
+                </div>
+
+                <!-- Card 3: Recommended Servings -->
+                <div class="result-detail-card">
+                    <div class="result-detail-icon">👥</div>
+                    <div class="result-detail-title">Recommended Servings</div>
+                    <div class="result-detail-value" id="recommendedServings">
+                        40 people
+                    </div>
+                    <div class="result-detail-sub">
+                        AI-estimated based on quantity
+                    </div>
+                </div>
+
+                <!-- Card 4: Food Safety Level -->
+                <div class="result-detail-card">
+                    <div class="result-detail-icon">🛡️</div>
+                    <div class="result-detail-title">Safety Level</div>
+                    <div class="result-detail-value result-safe" id="safetyLevel">
+                        Safe
+                    </div>
+                    <div class="result-detail-sub">
+                        No safety concerns detected
+                    </div>
+                </div>
+
+            </div>
+            <!-- end result-details-grid -->
+
+            <!-- ── FRESHNESS PROGRESS BAR ─────────────────
+                 Visual bar showing the score as a percentage.
+            ─────────────────────────────────────────── -->
+            <div class="result-section">
+                <h2 class="result-section-title">Freshness Score Breakdown</h2>
+                <div class="score-progress-container">
+                    <div class="score-progress-bar">
+                        <!-- Width is set by JavaScript based on the score -->
+                        <div class="score-progress-fill" id="scoreProgressFill"
+                             style="width: 85%">
+                        </div>
+                    </div>
+                    <div class="score-progress-labels">
+                        <span>0 – Spoiled</span>
+                        <span>50 – Borderline</span>
+                        <span>100 – Very Fresh</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── FOOD SAFETY MESSAGE ────────────────────
+                 A plain-language message for the donor / NGO.
+            ─────────────────────────────────────────── -->
+            <div class="result-section">
+                <h2 class="result-section-title">📋 Food Safety Message</h2>
+                <div class="safety-message-box" id="safetyMessageBox">
+                    <p id="safetyMessage">
+                        This food is fresh and safe for donation. It was prepared
+                        recently and has sufficient time before expiry. Please
+                        ensure it is stored in a cool, dry place during transport.
+                        Distribute within the next 4 hours for best quality.
+                    </p>
+                </div>
+            </div>
+
+            <!-- ── AI RECOMMENDATIONS ────────────────────
+                 Bullet-point tips from the AI.
+            ─────────────────────────────────────────── -->
+            <div class="result-section">
+                <h2 class="result-section-title">💡 AI Recommendations</h2>
+                <ul class="recommendations-list" id="recommendationsList">
+                    <li class="recommendation-item recommendation-good">
+                        ✅ Food is within safe temperature and time window.
+                    </li>
+                    <li class="recommendation-item recommendation-good">
+                        ✅ Quantity is sufficient for the estimated servings.
+                    </li>
+                    <li class="recommendation-item recommendation-warn">
+                        ⚠️ Distribute within 4 hours for optimal freshness.
+                    </li>
+                    <li class="recommendation-item recommendation-info">
+                        ℹ️ Store in an airtight container at below 5°C if possible.
+                    </li>
+                </ul>
+            </div>
+
+            <!-- ── SUBMITTED FOOD DETAILS ────────────────
+                 Summary of what the donor filled in.
+            ─────────────────────────────────────────── -->
+            <div class="result-section">
+                <h2 class="result-section-title">📝 Submitted Details</h2>
+                <div class="submitted-details-grid" id="submittedDetails">
+                    <div class="submitted-detail-item">
+                        <span class="submitted-label">Donor</span>
+                        <span class="submitted-value" id="detailDonor">Raj's Restaurant</span>
+                    </div>
+                    <div class="submitted-detail-item">
+                        <span class="submitted-label">Food Name</span>
+                        <span class="submitted-value" id="detailFoodName">Vegetable Biryani</span>
+                    </div>
+                    <div class="submitted-detail-item">
+                        <span class="submitted-label">Category</span>
+                        <span class="submitted-value" id="detailCategory">Cooked Meal</span>
+                    </div>
+                    <div class="submitted-detail-item">
+                        <span class="submitted-label">Quantity</span>
+                        <span class="submitted-value" id="detailQuantity">8 kg</span>
+                    </div>
+                    <div class="submitted-detail-item">
+                        <span class="submitted-label">Prep Type</span>
+                        <span class="submitted-value" id="detailPrepType">Cooked</span>
+                    </div>
+                    <div class="submitted-detail-item">
+                        <span class="submitted-label">Location</span>
+                        <span class="submitted-value" id="detailLocation">Koramangala, Bengaluru</span>
+                    </div>
+                    <div class="submitted-detail-item">
+                        <span class="submitted-label">Prepared At</span>
+                        <span class="submitted-value" id="detailPrepTime">Today, 12:00 PM</span>
+                    </div>
+                    <div class="submitted-detail-item">
+                        <span class="submitted-label">Contact</span>
+                        <span class="submitted-value" id="detailContact">98765 43210</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── ACTION BUTTONS ────────────────────────
+                 Next steps the donor can take.
+            ─────────────────────────────────────────── -->
+            <div class="result-actions">
+                <a href="ngo.html" class="btn btn-primary btn-large">
+                    📢 Publish Donation for NGOs
+                </a>
+                <a href="donor.html" class="btn btn-outline btn-large">
+                    ➕ Donate Another Item
+                </a>
+                <button class="btn btn-ghost" onclick="window.print()">
+                    🖨️ Print Report
+                </button>
+            </div>
+
+        </div>
+        <!-- end result-content -->
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">🍱 ZeroHungry AI</div>
+            <p class="footer-copy">© 2024 ZeroHungry AI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ZeroHungry AI – Food Freshness Verification</title>
+
+    <link rel="stylesheet" href="app.css">
+    <script>
+    const token = localStorage.getItem("jwtToken");
+
+    if (!token) {
+        window.location.href = "login.html";
+    }
+</script>
+</head>
+
+<body>
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <header class="navbar">
+
+        <div class="navbar-logo">
+            🍱 ZeroHungry
+            <span class="logo-ai">AI</span>
+        </div>
+
+        <nav class="navbar-links">
+
+            <a href="index.html"
+               class="nav-link active">
+                Home
+            </a>
+
+            <a href="my-donations.html"
+               class="nav-link">
+                My Donations
+            </a>
+
+            <a href="ngo-register.html"
+               class="nav-link">
+                NGO Login
+            </a>
+
+        </nav>
+
+        <button
+            class="nav-mobile-toggle"
+            id="mobileMenuBtn"
+            aria-label="Toggle menu">
+
+            ☰
+
+        </button>
+
+    </header>
+
+
+    <!-- =====================================================
+         PAGE HERO
+    ====================================================== -->
+
+    <div class="page-hero">
+
+        <h1>
+            🤖 AI Food Freshness Verification
+        </h1>
+
+        <p>
+            Verify donated food before connecting it with NGOs.
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         MAIN LAYOUT
+    ====================================================== -->
+
+    <main class="verify-layout">
+
+
+        <!-- =================================================
+             LEFT SIDE – DONATION FORM
+        ================================================== -->
+
+        <section class="verify-form-card">
+
+            <form
+                id="verifyForm"
+                novalidate>
+
+
+                <!-- =========================================
+                     DONOR INFORMATION
+                ========================================== -->
+
+                <div class="form-section">
+
+                    <h3 class="form-section-title">
+                        👤 Donor Information
+                    </h3>
+
+
+                    <div class="form-group">
+
+                        <label for="donorName">
+                            Donor Name
+                            <span class="req">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="donorName"
+                            placeholder="e.g. Raj's Restaurant">
+
+                        <span
+                            class="ferr"
+                            id="err-donorName">
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="contactNumber">
+                                Contact Number
+                                <span class="req">*</span>
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="contactNumber"
+                                placeholder="10-digit mobile"
+                                maxlength="10">
+
+                            <span
+                                class="ferr"
+                                id="err-contactNumber">
+                            </span>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="location">
+                                Pickup Location
+                                <span class="req">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="location"
+                                placeholder="e.g. Trichy">
+
+                            <span
+                                class="ferr"
+                                id="err-location">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     FOOD DETAILS
+                ========================================== -->
+
+                <div class="form-section">
+
+                    <h3 class="form-section-title">
+                        🥘 Food Details
+                    </h3>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="foodName">
+                                Food Name
+                                <span class="req">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="foodName"
+                                placeholder="e.g. Vegetable Biryani">
+
+                            <span
+                                class="ferr"
+                                id="err-foodName">
+                            </span>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="foodCategory">
+                                Food Category
+                                <span class="req">*</span>
+                            </label>
+
+                            <select id="foodCategory">
+
+                                <option value="">
+                                    -- Select --
+                                </option>
+
+                                <option value="Cooked Meal">
+                                    Cooked Meal
+                                </option>
+
+                                <option value="Baked Goods">
+                                    Baked Goods
+                                </option>
+
+                                <option value="Raw Vegetables">
+                                    Raw Vegetables
+                                </option>
+
+                                <option value="Fruits">
+                                    Fruits
+                                </option>
+
+                                <option value="Dairy">
+                                    Dairy
+                                </option>
+
+                                <option value="Packaged Food">
+                                    Packaged Food
+                                </option>
+
+                                <option value="Beverages">
+                                    Beverages
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                            <span
+                                class="ferr"
+                                id="err-foodCategory">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="quantity">
+                                Quantity
+                                <span class="req">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                id="quantity"
+                                placeholder="e.g. 5 kg or 30 packets">
+
+                            <span
+                                class="ferr"
+                                id="err-quantity">
+                            </span>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="servings">
+                                People It Can Serve
+                                <span class="req">*</span>
+                            </label>
+
+                            <input
+                                type="number"
+                                id="servings"
+                                placeholder="e.g. 20"
+                                min="1">
+
+                            <span
+                                class="ferr"
+                                id="err-servings">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PREPARATION TYPE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Preparation Type
+                            <span class="req">*</span>
+                        </label>
+
+                        <div class="radio-group">
+
+
+                            <label class="radio-pill">
+
+                                <input
+                                    type="radio"
+                                    name="prepType"
+                                    value="Cooked">
+
+                                <span>
+                                    🍲 Cooked
+                                </span>
+
+                            </label>
+
+
+                            <label class="radio-pill">
+
+                                <input
+                                    type="radio"
+                                    name="prepType"
+                                    value="Baked">
+
+                                <span>
+                                    🥐 Baked
+                                </span>
+
+                            </label>
+
+
+                            <label class="radio-pill">
+
+                                <input
+                                    type="radio"
+                                    name="prepType"
+                                    value="Raw">
+
+                                <span>
+                                    🥬 Raw
+                                </span>
+
+                            </label>
+
+
+                            <label class="radio-pill">
+
+                                <input
+                                    type="radio"
+                                    name="prepType"
+                                    value="Packaged">
+
+                                <span>
+                                    📦 Packaged
+                                </span>
+
+                            </label>
+
+
+                            <label class="radio-pill">
+
+                                <input
+                                    type="radio"
+                                    name="prepType"
+                                    value="Other">
+
+                                <span>
+                                    🍱 Other
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                        <span
+                            class="ferr"
+                            id="err-prepType">
+                        </span>
+
+                    </div>
+
+
+                    <!-- STORAGE CONDITION -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Storage Condition
+                            <span class="req">*</span>
+                        </label>
+
+                        <div class="radio-group">
+
+
+                            <label class="radio-pill">
+
+                                <input
+                                    type="radio"
+                                    name="storageCondition"
+                                    value="Room Temperature">
+
+                                <span>
+                                    🌡️ Room Temp
+                                </span>
+
+                            </label>
+
+
+                            <label class="radio-pill">
+
+                                <input
+                                    type="radio"
+                                    name="storageCondition"
+                                    value="Refrigerated">
+
+                                <span>
+                                    ❄️ Refrigerated
+                                </span>
+
+                            </label>
+
+
+                            <label class="radio-pill">
+
+                                <input
+                                    type="radio"
+                                    name="storageCondition"
+                                    value="Other">
+
+                                <span>
+                                    📦 Other
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                        <span
+                            class="ferr"
+                            id="err-storageCondition">
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     DATE AND TIME
+                ========================================== -->
+
+                <div class="form-section">
+
+                    <h3 class="form-section-title">
+                        🕐 Dates &amp; Times
+                    </h3>
+
+
+                    <div class="form-row">
+
+
+                        <div class="form-group">
+
+                            <label for="prepDateTime">
+                                Preparation Date &amp; Time
+                                <span class="req">*</span>
+                            </label>
+
+                            <input
+                                type="datetime-local"
+                                id="prepDateTime">
+
+                            <span
+                                class="ferr"
+                                id="err-prepDateTime">
+                            </span>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="expiryDateTime">
+                                Expected Expiry
+                                <span class="req">*</span>
+                            </label>
+
+                            <input
+                                type="datetime-local"
+                                id="expiryDateTime">
+
+                            <span
+                                class="ferr"
+                                id="err-expiryDateTime">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <p class="hint">
+
+                        💡 Cooked food: safe for 4–6 hrs
+                        at room temperature and longer
+                        when properly refrigerated.
+
+                    </p>
+
+                </div>
+
+
+                <!-- =========================================
+                     FOOD IMAGE
+                ========================================== -->
+
+                <div class="form-section">
+
+                    <h3 class="form-section-title">
+                        📷 Food Image
+                    </h3>
+
+
+                    <div class="form-group">
+
+                        <label for="foodImage">
+
+                            Upload Photo
+                            <span class="req">*</span>
+
+                            <span class="label-hint">
+                                (required for AI check)
+                            </span>
+
+                        </label>
+
+
+                        <div
+                            class="file-drop"
+                            id="fileDropArea">
+
+                            <input
+                                type="file"
+                                id="foodImage"
+                                accept="image/*"
+                                class="file-input">
+
+
+                            <div class="file-drop-label">
+
+                                <span class="file-drop-icon">
+                                    📁
+                                </span>
+
+                                <span id="fileNameDisplay">
+
+                                    Click to upload
+                                    or drag &amp; drop
+
+                                </span>
+
+                                <span class="file-hint">
+
+                                    PNG · JPG · JPEG · max 5 MB
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <span
+                            class="ferr"
+                            id="err-foodImage">
+                        </span>
+
+
+                        <div
+                            class="img-preview-wrap hidden"
+                            id="imgPreviewWrap">
+
+                            <img
+                                id="imgPreview"
+                                src=""
+                                alt="Food preview"
+                                class="img-preview">
+
+
+                            <button
+                                type="button"
+                                class="remove-img-btn"
+                                id="removeImgBtn">
+
+                                ✕ Remove
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     FORM BUTTONS
+                ========================================== -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="button"
+                        class="btn btn-outline"
+                        id="clearFormBtn">
+
+                        🔄 Clear
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary btn-lg"
+                        id="verifyBtn">
+
+                        🤖 VERIFY FOOD FRESHNESS
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+
+        <!-- =================================================
+             RIGHT SIDE – RESULT
+        ================================================== -->
+
+        <aside
+            class="result-panel hidden"
+            id="resultPanel">
+
+
+            <!-- LOADING -->
+
+            <div
+                id="resultLoading"
+                class="result-loading">
+
+                <div class="spinner"></div>
+
+                <p>
+                    Analyzing food with ZeroHungry AI...
+                </p>
+
+            </div>
+
+
+            <!-- RESULT -->
+
+            <div
+                id="resultContent"
+                class="hidden">
+
+
+                <div class="result-card">
+
+
+                    <!-- HEADER -->
+
+                    <div class="result-header">
+
+                        <h2>
+                            🤖 AI Freshness Report
+                        </h2>
+
+                        <p id="safetyMsg">
+                            Freshness analysis completed.
+                        </p>
+
+                    </div>
+
+
+                    <!-- SCORE -->
+
+                    <div class="result-score">
+
+                        <span>
+                            Freshness Score
+                        </span>
+
+                        <strong id="scoreNum">
+                            --/100
+                        </strong>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+
+                    <div
+                        class="freshness-badge"
+                        id="freshnessBadge">
+
+                        --
+
+                    </div>
+
+
+                    <!-- DETAILS -->
+
+                    <div class="result-metrics">
+
+
+                        <div class="metric-row">
+
+                            <span class="metric-icon">
+                                🌿
+                            </span>
+
+                            <span class="metric-lbl">
+                                Freshness Status
+                            </span>
+
+                            <span
+                                class="metric-val"
+                                id="rFreshnessStatus">
+
+                                --
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="metric-row">
+
+                            <span class="metric-icon">
+                                ⏰
+                            </span>
+
+                            <span class="metric-lbl">
+                                Estimated Expiry
+                            </span>
+
+                            <span
+                                class="metric-val"
+                                id="rEstimatedExpiry">
+
+                                --
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="metric-row">
+
+                            <span class="metric-icon">
+                                👥
+                            </span>
+
+                            <span class="metric-lbl">
+                                People Served
+                            </span>
+
+                            <span
+                                class="metric-val"
+                                id="rServings">
+
+                                --
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="metric-row">
+
+                            <span class="metric-icon">
+                                ❄️
+                            </span>
+
+                            <span class="metric-lbl">
+                                Storage
+                            </span>
+
+                            <span
+                                class="metric-val"
+                                id="rStorage">
+
+                                --
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="metric-row">
+
+                            <span class="metric-icon">
+                                🆔
+                            </span>
+
+                            <span class="metric-lbl">
+                                Donation ID
+                            </span>
+
+                            <span
+                                class="metric-val"
+                                id="rDonationId">
+
+                                --
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PROGRESS -->
+
+                    <div class="progress-track">
+
+                        <div
+                            class="progress-fill"
+                            id="progressFill"
+                            style="width:0%">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="progress-labels">
+
+                        <span>
+                            0 – Not Recommended
+                        </span>
+
+                        <span>
+                            50
+                        </span>
+
+                        <span>
+                            100 – Fresh
+                        </span>
+
+                    </div>
+
+
+                    <!-- AI MESSAGE -->
+
+                    <div
+                        class="safety-msg-box">
+
+                        <strong>
+                            🤖 AI Analysis
+                        </strong>
+
+                        <p id="aiAnalysisMessage">
+                            --
+                        </p>
+
+                    </div>
+
+
+                    <!-- DONATE -->
+
+                    <button
+                        class="btn btn-success btn-lg btn-full"
+                        id="donateFoodBtn">
+
+                        🍱 DONATE THIS FOOD
+
+                    </button>
+
+
+                    <!-- VERIFY ANOTHER -->
+
+                    <button
+                        class="btn btn-outline btn-full mt8"
+                        id="verifyAnotherBtn">
+
+                        ➕ Verify Another Food
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="footer">
+
+        <div class="footer-inner">
+
+            <span class="footer-brand">
+                🍱 ZeroHungry AI
+            </span>
+
+            <span>
+                Making zero hunger possible,
+                one meal at a time.
+            </span>
+
+
+            <div class="footer-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="my-donations.html">
+                    My Donations
+                </a>
+
+                <a href="ngo-dashboard.html">
+                    NGO Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+  <script src="app.js?v=2"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NGO Registration – ZeroHungry AI</title>
+    <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+
+    <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+    <header class="navbar">
+        <div class="navbar-logo">🍱 ZeroHungry <span class="logo-ai">AI</span></div>
+        <nav class="navbar-links">
+            <a href="index.html"        class="nav-link">Home</a>
+            <a href="my-donations.html" class="nav-link">My Donations</a>
+            <a href="ngo-register.html" class="nav-link active">NGO Login</a>
+        </nav>
+    </header>
+
+    <!-- ═══════════════════ PAGE HEADER ═══════════════════ -->
+    <div class="page-hero">
+        <h1>🏢 NGO Registration</h1>
+        <p>Register your NGO to start receiving food donations from nearby donors.</p>
+    </div>
+
+    <main class="form-page-narrow">
+
+        <!-- ═══════════════════ REGISTRATION FORM ═══════════════════ -->
+        <div class="form-card">
+
+            <!--
+                id="ngoRegisterForm" is used by app.js to
+                detect this page and attach its validation logic.
+            -->
+            <form id="ngoRegisterForm" novalidate>
+
+                <!-- ── SECTION 1: NGO Identity ── -->
+                <div class="form-section">
+                    <h3 class="form-section-title">🏛️ NGO Identity</h3>
+
+                    <div class="form-group">
+                        <label for="ngoName">NGO Name <span class="req">*</span></label>
+                        <input type="text" id="ngoName"
+                               placeholder="e.g. Hunger Relief Foundation" />
+                        <span class="ferr" id="err-ngoName"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ngoRegId">NGO Registration ID <span class="req">*</span></label>
+                        <input type="text" id="ngoRegId"
+                               placeholder="e.g. NGO/KA/2021/00123" />
+                        <span class="ferr" id="err-ngoRegId"></span>
+                    </div>
+                </div>
+
+                <!-- ── SECTION 2: Contact Details ── -->
+                <div class="form-section">
+                    <h3 class="form-section-title">📞 Contact Details</h3>
+
+                    <div class="form-group">
+                        <label for="contactPerson">Contact Person <span class="req">*</span></label>
+                        <input type="text" id="contactPerson"
+                               placeholder="Full name of primary contact" />
+                        <span class="ferr" id="err-contactPerson"></span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ngoPhone">Phone Number <span class="req">*</span></label>
+                            <input type="tel" id="ngoPhone"
+                                   placeholder="10-digit mobile" maxlength="10" />
+                            <span class="ferr" id="err-ngoPhone"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="ngoEmail">Email Address <span class="req">*</span></label>
+                            <input type="email" id="ngoEmail"
+                                   placeholder="e.g. contact@ngo.org" />
+                            <span class="ferr" id="err-ngoEmail"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── SECTION 3: Address ── -->
+                <div class="form-section">
+                    <h3 class="form-section-title">📍 Address</h3>
+
+                    <div class="form-group">
+                        <label for="ngoAddress">Street Address <span class="req">*</span></label>
+                        <input type="text" id="ngoAddress"
+                               placeholder="e.g. 45, Gandhi Nagar, 2nd Cross" />
+                        <span class="ferr" id="err-ngoAddress"></span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="ngoCity">City <span class="req">*</span></label>
+                            <input type="text" id="ngoCity"
+                                   placeholder="e.g. Bengaluru" />
+                            <span class="ferr" id="err-ngoCity"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="ngoPincode">Pincode <span class="req">*</span></label>
+                            <input type="text" id="ngoPincode"
+                                   placeholder="e.g. 560001" maxlength="6" />
+                            <span class="ferr" id="err-ngoPincode"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── SECTION 4: Capacity & Preferences ── -->
+                <div class="form-section">
+                    <h3 class="form-section-title">🍽️ Capacity &amp; Preferences</h3>
+
+                    <div class="form-group">
+                        <label for="ngoCapacity">
+                            Number of People You Can Serve (daily) <span class="req">*</span>
+                        </label>
+                        <input type="number" id="ngoCapacity"
+                               placeholder="e.g. 200" min="1" />
+                        <span class="ferr" id="err-ngoCapacity"></span>
+                    </div>
+
+                    <!--
+                        Food Categories Accepted – checkboxes.
+                        Multiple selections allowed.
+                        app.js reads all checked boxes on submit.
+                    -->
+                    <div class="form-group">
+                        <label>Food Categories Accepted <span class="req">*</span></label>
+                        <div class="checkbox-group" id="foodCatsGroup">
+                            <label class="checkbox-pill">
+                                <input type="checkbox" name="foodCats" value="Cooked Meal" />
+                                <span>🍲 Cooked Meal</span>
+                            </label>
+                            <label class="checkbox-pill">
+                                <input type="checkbox" name="foodCats" value="Baked Goods" />
+                                <span>🥐 Baked Goods</span>
+                            </label>
+                            <label class="checkbox-pill">
+                                <input type="checkbox" name="foodCats" value="Raw Vegetables" />
+                                <span>🥬 Raw Vegetables</span>
+                            </label>
+                            <label class="checkbox-pill">
+                                <input type="checkbox" name="foodCats" value="Fruits" />
+                                <span>🍎 Fruits</span>
+                            </label>
+                            <label class="checkbox-pill">
+                                <input type="checkbox" name="foodCats" value="Dairy" />
+                                <span>🥛 Dairy</span>
+                            </label>
+                            <label class="checkbox-pill">
+                                <input type="checkbox" name="foodCats" value="Packaged Food" />
+                                <span>📦 Packaged Food</span>
+                            </label>
+                            <label class="checkbox-pill">
+                                <input type="checkbox" name="foodCats" value="Beverages" />
+                                <span>🥤 Beverages</span>
+                            </label>
+                            <label class="checkbox-pill">
+                                <input type="checkbox" name="foodCats" value="Any" />
+                                <span>✅ Any / All</span>
+                            </label>
+                        </div>
+                        <span class="ferr" id="err-foodCats"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="operatingHours">Operating Hours <span class="req">*</span></label>
+                        <input type="text" id="operatingHours"
+                               placeholder="e.g. Mon–Sat, 8:00 AM – 8:00 PM" />
+                        <span class="ferr" id="err-operatingHours"></span>
+                    </div>
+                </div>
+
+                <!-- ── FORM ACTIONS ── -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" id="ngoResetBtn">
+                        🔄 Clear
+                    </button>
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        🏢 REGISTER NGO
+                    </button>
+                </div>
+
+            </form>
+
+            <!--
+                Success message – hidden until form is submitted.
+                app.js removes "hidden" and fills in the NGO name.
+            -->
+            <div class="reg-success hidden" id="ngoRegSuccess">
+                <div class="success-icon">✅</div>
+                <h2>Registration Successful!</h2>
+                <p>Welcome, <strong id="successNgoName">NGO</strong>!</p>
+                <p>Your NGO has been registered. You can now view available donations.</p>
+                <div class="success-actions">
+                    <a href="ngo-dashboard.html" class="btn btn-primary btn-lg">
+                        Go to NGO Dashboard →
+                    </a>
+                    <a href="index.html" class="btn btn-outline">Back to Home</a>
+                </div>
+            </div>
+
+        </div>
+        <!-- end form-card -->
+
+        <!-- ── Existing NGO? Login hint ── -->
+        <p class="login-hint">
+            Already registered?
+            <a href="ngo-dashboard.html" class="link">Go to NGO Dashboard →</a>
+        </p>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <span class="footer-brand">🍱 ZeroHungry AI</span>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="ngo-dashboard.html">NGO Dashboard</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

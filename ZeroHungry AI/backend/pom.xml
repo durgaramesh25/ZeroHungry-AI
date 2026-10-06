@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+        PARENT
+        ──────
+        The spring-boot-starter-parent gives us:
+          • Sensible default versions for all Spring libraries
+          • A pre-configured Maven build
+          • No need to specify versions for most dependencies
+    -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.0</version>
+        <relativePath/> <!-- look up the parent from the Maven repository -->
+    </parent>
+
+    <!-- ── Project identity ──────────────────────────────────── -->
+    <groupId>com.zerohungry</groupId>
+    <artifactId>zerohungry-ai</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>ZeroHungry AI</name>
+    <description>AI-powered food donation management system</description>
+
+    <!-- ── Java version ──────────────────────────────────────── -->
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
+    <!--
+        DEPENDENCIES
+        ────────────
+        A dependency is a library your project uses.
+        Maven downloads these automatically from the internet.
+
+        Step 4 added:
+          1. spring-boot-starter-web  — REST APIs + embedded Tomcat
+          2. spring-boot-starter-test — unit testing tools
+
+        Step 5 adds:
+          3. spring-boot-starter-data-jpa — JPA + Hibernate ORM
+          4. mysql-connector-j            — MySQL JDBC driver
+    -->
+    <dependencies>
+
+        <!-- ✅ DEPENDENCY 1: Spring Web (REST APIs + built-in Tomcat server) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <!--
+                No <version> tag needed here.
+                The parent pom handles the version automatically.
+            -->
+        </dependency>
+
+        <!-- ✅ DEPENDENCY 2: Spring Test (unit testing tools) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <!-- scope=test means only used for tests, not in production code -->
+        </dependency>
+
+        <!-- ✅ DEPENDENCY 3: Spring Data JPA + Hibernate (Step 5)
+             ────────────────────────────────────────────────────────
+             JPA  = Java Persistence API
+                    A standard Java specification that defines HOW
+                    Java objects should be stored in a database.
+                    JPA itself is just a set of rules (an interface).
+
+             Hibernate = The actual implementation of those JPA rules.
+                    Spring Boot uses Hibernate by default.
+                    It translates your Java objects into SQL queries
+                    and SQL results back into Java objects.
+
+             spring-boot-starter-data-jpa pulls in BOTH:
+               • The JPA specification
+               • Hibernate (the JPA implementation)
+               • Spring Data JPA (extra convenience layer on top)
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- ✅ DEPENDENCY 4: MySQL JDBC Driver (Step 5)
+             ────────────────────────────────────────────────────────
+             JDBC = Java Database Connectivity
+                    A standard Java API that allows Java programs to
+                    send SQL commands to a database.
+
+             mysql-connector-j is the JDBC driver specifically for MySQL.
+             It acts as the translator between Java and MySQL.
+
+             scope="runtime" means:
+               • The driver is NOT needed when compiling the code.
+               • It IS needed when the application actually runs.
+               • Maven will not include it in the compile classpath,
+                 only in the runtime classpath.
+        -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+       <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-crypto</artifactId>
+    </dependency>
+        
+        <dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-api</artifactId>
+    <version>0.12.6</version>
+</dependency>
+
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-impl</artifactId>
+    <version>0.12.6</version>
+    <scope>runtime</scope>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-jackson</artifactId>
+    <version>0.12.6</version>
+    <scope>runtime</scope>
+</dependency>
+    </dependencies>
+    
+
+    <!--
+        BUILD PLUGINS
+        ─────────────
+        The spring-boot-maven-plugin lets you run the app with:
+            mvn spring-boot:run
+        It also packages the app as a single runnable JAR file.
+    -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

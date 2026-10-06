@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login – ZeroHungry AI</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="login-card">
+
+            <div class="login-logo">
+                🍱 ZeroHungry <span>AI</span>
+            </div>
+
+            <h1>Welcome Back</h1>
+
+            <p class="login-subtitle">
+                Login to continue to ZeroHungry AI
+            </p>
+
+            <form id="loginForm">
+
+                <!-- Email -->
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Password -->
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Role -->
+                <div class="form-group">
+
+                    <label for="role">
+                        Login As
+                    </label>
+
+                    <select id="role" required>
+
+                        <option value="">
+                            Select role
+                        </option>
+
+                        <option value="DONOR">
+                            Donor
+                        </option>
+
+                        <option value="NGO">
+                            NGO
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Login Button -->
+                <button
+                    type="submit"
+                    class="btn btn-primary login-btn"
+                >
+                    Login
+                </button>
+
+            </form>
+
+
+            <!-- Login Message -->
+            <div
+                id="loginMessage"
+                class="login-message"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+
+        loginForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                const email =
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim();
+
+
+                const password =
+                    document
+                        .getElementById("password")
+                        .value;
+
+
+                const selectedRole =
+                    document
+                        .getElementById("role")
+                        .value;
+
+
+                const message =
+                    document.getElementById(
+                        "loginMessage"
+                    );
+
+
+                message.textContent =
+                    "Logging in...";
+
+                message.className =
+                    "login-message";
+
+
+                try {
+
+                    // =========================================
+                    // CALL SPRING BOOT LOGIN API
+                    // =========================================
+
+                    const response =
+                        await fetch(
+                            "http://localhost:8080/api/auth/login",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+
+                                    email: email,
+
+                                    password: password
+
+                                })
+                            }
+                        );
+
+
+                    // =========================================
+                    // CHECK BACKEND RESPONSE
+                    // =========================================
+
+                    if (!response.ok) {
+
+                        const errorText =
+                            await response.text();
+
+                        throw new Error(
+                            errorText
+                        );
+                    }
+
+
+                    // =========================================
+                    // READ JSON RESPONSE
+                    // =========================================
+
+                    const data =
+                        await response.json();
+
+
+                    console.log(
+                        "✅ Login response received"
+                    );
+
+                    console.log(
+                        "User:",
+                        data.email
+                    );
+
+                    console.log(
+                        "Role:",
+                        data.role
+                    );
+
+                    console.log(
+                        "Token received:",
+                        Boolean(data.token)
+                    );
+
+
+                    // =========================================
+                    // CHECK TOKEN
+                    // =========================================
+
+                    if (!data.token) {
+
+                        throw new Error(
+                            "Backend did not return JWT token."
+                        );
+                    }
+
+
+                    // =========================================
+                    // CHECK ROLE
+                    // =========================================
+
+                    if (
+                        data.role !==
+                        selectedRole
+                    ) {
+
+                        message.textContent =
+                            "Selected role does not match your account.";
+
+                        message.className =
+                            "login-message error";
+
+                        return;
+                    }
+
+
+                    // =========================================
+                    // SAVE LOGIN INFORMATION
+                    // =========================================
+
+                    localStorage.setItem(
+                        "jwtToken",
+                        data.token
+                    );
+
+                    localStorage.setItem(
+                        "userId",
+                        String(data.id)
+                    );
+
+                    localStorage.setItem(
+                        "userName",
+                        data.name
+                    );
+
+                    localStorage.setItem(
+                        "userEmail",
+                        data.email
+                    );
+
+                    localStorage.setItem(
+                        "userRole",
+                        data.role
+                    );
+
+
+                    // =========================================
+                    // VERIFY TOKEN WAS SAVED
+                    // =========================================
+
+                    const savedToken =
+                        localStorage.getItem(
+                            "jwtToken"
+                        );
+
+
+                    console.log(
+                        "JWT saved:",
+                        Boolean(savedToken)
+                    );
+
+
+                    if (!savedToken) {
+
+                        throw new Error(
+                            "JWT could not be saved in browser storage."
+                        );
+                    }
+
+
+                    // =========================================
+                    // SUCCESS MESSAGE
+                    // =========================================
+
+                    message.textContent =
+                        "Login successful! Redirecting...";
+
+                    message.className =
+                        "login-message success";
+
+
+                    // =========================================
+                    // REDIRECT
+                    // =========================================
+
+                    setTimeout(
+                        function () {
+
+                            if (
+                                data.role ===
+                                "DONOR"
+                            ) {
+
+                                window.location.href =
+                                    "index.html";
+
+                            } else if (
+                                data.role ===
+                                "NGO"
+                            ) {
+
+                                window.location.href =
+                                    "ngo.html";
+                            }
+
+                        },
+                        800
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "❌ Login error:",
+                        error
+                    );
+
+
+                    message.textContent =
+                        error.message ||
+                        "Invalid email or password.";
+
+                    message.className =
+                        "login-message error";
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

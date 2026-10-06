@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NGO Response – ZeroHungry AI</title>
+    <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+
+    <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+    <header class="navbar">
+        <div class="navbar-logo">🍱 ZeroHungry <span class="logo-ai">AI</span></div>
+        <nav class="navbar-links">
+            <a href="index.html"         class="nav-link">Home</a>
+            <a href="ngo-dashboard.html" class="nav-link active">Dashboard</a>
+            <a href="ngo-register.html"  class="nav-link">Profile</a>
+        </nav>
+    </header>
+
+    <main class="response-page">
+
+        <!-- ═══════════════════════════════════════════════════════
+             ACCEPTED STATE
+             Shown when the NGO has accepted a donation.
+             app.js shows/hides this block based on the response
+             stored in localStorage under the key "ngoResponse".
+        ════════════════════════════════════════════════════════ -->
+        <div id="acceptedBlock" class="response-block hidden">
+
+            <div class="response-banner response-banner-accepted">
+                <div class="response-banner-icon">🤝</div>
+                <h1>Donation Accepted!</h1>
+                <p>You have successfully accepted this food donation.</p>
+            </div>
+
+            <!-- ── Pickup Instructions ── -->
+            <div class="response-info-grid">
+
+                <div class="response-info-card">
+                    <h2 class="response-card-title">📦 Food Details</h2>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="detail-lbl">Donation ID</span>
+                            <span class="detail-val" id="acc-donationId">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-lbl">Food Name</span>
+                            <span class="detail-val" id="acc-foodName">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-lbl">Category</span>
+                            <span class="detail-val" id="acc-category">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-lbl">Quantity</span>
+                            <span class="detail-val" id="acc-quantity">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-lbl">Servings</span>
+                            <span class="detail-val" id="acc-servings">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-lbl">Prep Type</span>
+                            <span class="detail-val" id="acc-prepType">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-lbl">Freshness Score</span>
+                            <span class="detail-val score-fresh" id="acc-score">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-lbl">Freshness Status</span>
+                            <span class="detail-val score-fresh" id="acc-freshStatus">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-lbl">Expires At</span>
+                            <span class="detail-val expiry-fresh" id="acc-expiry">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="response-info-card">
+                    <h2 class="response-card-title">📞 Donor Contact</h2>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="detail-lbl">Donor Name</span>
+                            <span class="detail-val" id="acc-donorName">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-lbl">Phone</span>
+                            <span class="detail-val" id="acc-phone">--</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-lbl">Pickup Location</span>
+                            <span class="detail-val" id="acc-location">--</span>
+                        </div>
+                    </div>
+
+                    <!-- Pickup instructions box -->
+                    <div class="pickup-instructions">
+                        <h3>🚗 Pickup Instructions</h3>
+                        <ol class="pickup-steps">
+                            <li>Call the donor on the number above to confirm pickup time.</li>
+                            <li>Reach the pickup location within the response window.</li>
+                            <li>Carry your NGO ID for verification by the donor.</li>
+                            <li>Ensure food is transported in clean, covered containers.</li>
+                            <li>Distribute to beneficiaries within the estimated expiry time.</li>
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+            <!-- end response-info-grid -->
+
+            <!-- Accepted timestamp -->
+            <div class="response-timestamp">
+                ✅ Accepted at: <strong id="acc-acceptedAt">--</strong>
+            </div>
+
+            <div class="response-actions">
+                <a href="ngo-dashboard.html" class="btn btn-primary btn-lg">
+                    ← Back to Dashboard
+                </a>
+                <button class="btn btn-outline" onclick="window.print()">
+                    🖨️ Print Details
+                </button>
+            </div>
+
+        </div>
+        <!-- end #acceptedBlock -->
+
+        <!-- ═══════════════════════════════════════════════════════
+             REJECTED STATE
+             Shown when the NGO has rejected a donation.
+        ════════════════════════════════════════════════════════ -->
+        <div id="rejectedBlock" class="response-block hidden">
+
+            <div class="response-banner response-banner-rejected">
+                <div class="response-banner-icon">✕</div>
+                <h1>Donation Rejected</h1>
+                <p>You have declined this food donation.</p>
+            </div>
+
+            <div class="rejected-info-card">
+                <h2 class="response-card-title">📦 Rejected Donation Details</h2>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-lbl">Donation ID</span>
+                        <span class="detail-val" id="rej-donationId">--</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-lbl">Food Name</span>
+                        <span class="detail-val" id="rej-foodName">--</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-lbl">Rejected At</span>
+                        <span class="detail-val" id="rej-rejectedAt">--</span>
+                    </div>
+                </div>
+
+                <!-- Reason for rejection – optional select -->
+                <div class="form-group" style="margin-top:20px;">
+                    <label for="rejectionReason">Reason for Rejection (optional)</label>
+                    <select id="rejectionReason" class="filter-select" style="width:100%">
+                        <option value="">-- Select reason --</option>
+                        <option>Already have sufficient food stock</option>
+                        <option>Cannot reach the pickup location</option>
+                        <option>Food category not suitable</option>
+                        <option>Quantity too small</option>
+                        <option>Expiry time too close</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="rejected-notice">
+                    ℹ️ This donation will be made available to other nearby NGOs.
+                    If no NGO accepts within the response window, the donor will be notified.
+                </div>
+            </div>
+
+            <div class="response-actions">
+                <a href="ngo-dashboard.html" class="btn btn-primary btn-lg">
+                    ← Return to Available Donations
+                </a>
+            </div>
+
+        </div>
+        <!-- end #rejectedBlock -->
+
+        <!-- ═══════════════════════════════════════════════════════
+             EMPTY STATE
+             Shown when this page is opened directly without any
+             response data in localStorage.
+        ════════════════════════════════════════════════════════ -->
+        <div id="emptyResponseBlock" class="response-block">
+
+            <div class="response-banner response-banner-neutral">
+                <div class="response-banner-icon">📋</div>
+                <h1>No Response Found</h1>
+                <p>This page shows the result after you accept or reject a donation.</p>
+            </div>
+
+            <div class="response-actions">
+                <a href="ngo-dashboard.html" class="btn btn-primary btn-lg">
+                    Go to NGO Dashboard
+                </a>
+            </div>
+
+        </div>
+        <!-- end #emptyResponseBlock -->
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <span class="footer-brand">🍱 ZeroHungry AI</span>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="ngo-dashboard.html">NGO Dashboard</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Donations – ZeroHungry AI</title>
+    <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+
+    <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+    <header class="navbar">
+        <div class="navbar-logo">🍱 ZeroHungry <span class="logo-ai">AI</span></div>
+        <nav class="navbar-links">
+            <a href="index.html"        class="nav-link">Home</a>
+            <a href="my-donations.html" class="nav-link active">My Donations</a>
+            <a href="ngo-register.html" class="nav-link">NGO Login</a>
+        </nav>
+    </header>
+
+    <!-- ═══════════════════ PAGE HEADER ═══════════════════ -->
+    <div class="page-hero">
+        <h1>📋 My Donations</h1>
+        <p>Track all your submitted food donations and their current status.</p>
+    </div>
+
+    <main class="my-donations-page">
+
+        <!-- ═══════════════════ SUMMARY STATS ═══════════════════ -->
+        <div class="dash-stats-row">
+            <div class="dash-stat-card">
+                <div class="dash-stat-icon">📦</div>
+                <div class="dash-stat-num" id="myStatTotal">0</div>
+                <div class="dash-stat-lbl">Total Donations</div>
+            </div>
+            <div class="dash-stat-card">
+                <div class="dash-stat-icon">✅</div>
+                <div class="dash-stat-num" id="myStatCompleted">0</div>
+                <div class="dash-stat-lbl">Completed</div>
+            </div>
+            <div class="dash-stat-card">
+                <div class="dash-stat-icon">⏳</div>
+                <div class="dash-stat-num" id="myStatPending">0</div>
+                <div class="dash-stat-lbl">Pending</div>
+            </div>
+            <div class="dash-stat-card">
+                <div class="dash-stat-icon">👥</div>
+                <div class="dash-stat-num" id="myStatPeopleFed">0</div>
+                <div class="dash-stat-lbl">People Fed</div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════ FILTER & SEARCH ═══════════════════ -->
+        <div class="filter-bar">
+            <input type="text" id="mySearch" class="filter-input"
+                   placeholder="🔍 Search by food name or ID…" />
+            <select id="myStatusFilter" class="filter-select">
+                <option value="">All Statuses</option>
+                <option value="ANALYZING">Analyzing</option>
+                <option value="VERIFIED">Verified</option>
+                <option value="WAITING_FOR_NGO">Waiting for NGO</option>
+                <option value="ACCEPTED">Accepted</option>
+                <option value="REJECTED">Rejected</option>
+                <option value="PICKUP_PENDING">Pickup Pending</option>
+                <option value="COMPLETED">Completed</option>
+                <option value="EXPIRED">Expired</option>
+            </select>
+        </div>
+
+        <!-- ═══════════════════ DONATIONS TABLE ═══════════════════ -->
+        <!--
+            The table is populated by app.js using donations stored in
+            localStorage. If no real donations exist yet, sample rows
+            are shown for demonstration.
+        -->
+        <div class="table-wrapper">
+            <table class="donations-table" id="myDonationsTable">
+                <thead>
+                    <tr>
+                        <th>Donation ID</th>
+                        <th>Food Name</th>
+                        <th>Quantity</th>
+                        <th>Score</th>
+                        <th>Freshness</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                        <th>NGO Response</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="myDonationsTbody">
+                    <!--
+                        Sample rows shown when no localStorage data exists.
+                        app.js replaces these with real data if available.
+                    -->
+                    <tr data-status="COMPLETED">
+                        <td><span class="donation-id-chip">ZH-0001</span></td>
+                        <td class="food-name-cell">🍲 Vegetable Biryani</td>
+                        <td>8 kg</td>
+                        <td><span class="score-chip score-chip-fresh">85</span></td>
+                        <td><span class="freshness-tag fresh-tag">Fresh</span></td>
+                        <td><span class="status-pill pill-completed">✅ COMPLETED</span></td>
+                        <td class="date-cell">Today, 12:00 PM</td>
+                        <td><span class="ngo-response-tag ngo-accepted">Accepted by Hunger Relief</span></td>
+                        <td>
+                            <a href="donation-status.html"
+                               class="btn btn-outline btn-sm">View</a>
+                        </td>
+                    </tr>
+
+                    <tr data-status="WAITING_FOR_NGO">
+                        <td><span class="donation-id-chip">ZH-0002</span></td>
+                        <td class="food-name-cell">🥐 Assorted Bread</td>
+                        <td>20 loaves</td>
+                        <td><span class="score-chip score-chip-moderate">58</span></td>
+                        <td><span class="freshness-tag moderate-tag">Moderate</span></td>
+                        <td><span class="status-pill pill-waiting">⏳ WAITING FOR NGO</span></td>
+                        <td class="date-cell">Today, 10:30 AM</td>
+                        <td><span class="ngo-response-tag ngo-pending">Pending…</span></td>
+                        <td>
+                            <a href="donation-status.html"
+                               class="btn btn-outline btn-sm">View</a>
+                        </td>
+                    </tr>
+
+                    <tr data-status="ACCEPTED">
+                        <td><span class="donation-id-chip">ZH-0003</span></td>
+                        <td class="food-name-cell">🍎 Mixed Fruits</td>
+                        <td>15 kg</td>
+                        <td><span class="score-chip score-chip-fresh">92</span></td>
+                        <td><span class="freshness-tag fresh-tag">Fresh</span></td>
+                        <td><span class="status-pill pill-accepted">🤝 ACCEPTED</span></td>
+                        <td class="date-cell">Yesterday, 3:00 PM</td>
+                        <td><span class="ngo-response-tag ngo-accepted">Accepted by Green Care NGO</span></td>
+                        <td>
+                            <a href="donation-status.html"
+                               class="btn btn-outline btn-sm">View</a>
+                        </td>
+                    </tr>
+
+                    <tr data-status="REJECTED">
+                        <td><span class="donation-id-chip">ZH-0004</span></td>
+                        <td class="food-name-cell">🥛 Milk &amp; Dairy</td>
+                        <td>10 litres</td>
+                        <td><span class="score-chip score-chip-moderate">45</span></td>
+                        <td><span class="freshness-tag moderate-tag">Moderate</span></td>
+                        <td><span class="status-pill pill-rejected">✕ REJECTED</span></td>
+                        <td class="date-cell">Yesterday, 8:00 AM</td>
+                        <td><span class="ngo-response-tag ngo-rejected">Rejected</span></td>
+                        <td>
+                            <a href="donation-status.html"
+                               class="btn btn-outline btn-sm">View</a>
+                        </td>
+                    </tr>
+
+                    <tr data-status="ANALYZING">
+                        <td><span class="donation-id-chip">ZH-0005</span></td>
+                        <td class="food-name-cell">📦 Packaged Snacks</td>
+                        <td>50 packets</td>
+                        <td><span class="score-chip score-chip-fresh">99</span></td>
+                        <td><span class="freshness-tag fresh-tag">Fresh</span></td>
+                        <td><span class="status-pill pill-analyzing">🔄 ANALYZING</span></td>
+                        <td class="date-cell">Just now</td>
+                        <td><span class="ngo-response-tag ngo-pending">–</span></td>
+                        <td>
+                            <a href="donation-status.html"
+                               class="btn btn-outline btn-sm">View</a>
+                        </td>
+                    </tr>
+
+                    <tr data-status="EXPIRED">
+                        <td><span class="donation-id-chip">ZH-0006</span></td>
+                        <td class="food-name-cell">🍞 White Bread</td>
+                        <td>5 loaves</td>
+                        <td><span class="score-chip score-chip-danger">12</span></td>
+                        <td><span class="freshness-tag expired-tag">Expired</span></td>
+                        <td><span class="status-pill pill-expired">❌ EXPIRED</span></td>
+                        <td class="date-cell">2 days ago</td>
+                        <td><span class="ngo-response-tag ngo-rejected">No response</span></td>
+                        <td>
+                            <a href="index.html"
+                               class="btn btn-outline btn-sm">Re-verify</a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <!-- end table-wrapper -->
+
+        <!-- No results state – shown by JS when filters match nothing -->
+        <div class="no-results hidden" id="myNoResults">
+            <div class="no-results-icon">🔍</div>
+            <h3>No donations match your filters</h3>
+            <p>Try clearing the search or choosing a different status.</p>
+        </div>
+
+        <!-- Empty state – shown when localStorage has zero donations -->
+        <div class="empty-state hidden" id="myEmptyState">
+            <div class="empty-state-icon">🍽️</div>
+            <h3>No donations yet</h3>
+            <p>You haven't submitted any food donations. Start by verifying food freshness.</p>
+            <a href="index.html" class="btn btn-primary btn-lg">
+                🤖 Verify &amp; Donate Food
+            </a>
+        </div>
+
+        <!-- ═══════════════════ STATUS LEGEND ═══════════════════ -->
+        <div class="status-legend">
+            <h3 class="legend-title">Status Guide</h3>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <span class="status-pill pill-analyzing">🔄 ANALYZING</span>
+                    <span class="legend-desc">AI is checking food freshness</span>
+                </div>
+                <div class="legend-item">
+                    <span class="status-pill pill-verified">🤖 VERIFIED</span>
+                    <span class="legend-desc">Freshness check complete</span>
+                </div>
+                <div class="legend-item">
+                    <span class="status-pill pill-waiting">⏳ WAITING FOR NGO</span>
+                    <span class="legend-desc">NGOs are being notified</span>
+                </div>
+                <div class="legend-item">
+                    <span class="status-pill pill-accepted">🤝 ACCEPTED</span>
+                    <span class="legend-desc">An NGO has accepted</span>
+                </div>
+                <div class="legend-item">
+                    <span class="status-pill pill-rejected">✕ REJECTED</span>
+                    <span class="legend-desc">No NGO was available</span>
+                </div>
+                <div class="legend-item">
+                    <span class="status-pill pill-pickup">🚗 PICKUP PENDING</span>
+                    <span class="legend-desc">NGO is on the way</span>
+                </div>
+                <div class="legend-item">
+                    <span class="status-pill pill-completed">✅ COMPLETED</span>
+                    <span class="legend-desc">Food successfully donated</span>
+                </div>
+                <div class="legend-item">
+                    <span class="status-pill pill-expired">❌ EXPIRED</span>
+                    <span class="legend-desc">Expired before pickup</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA at the bottom -->
+        <div class="my-donations-cta">
+            <a href="index.html" class="btn btn-primary btn-lg">
+                🤖 Verify &amp; Donate Another Food
+            </a>
+        </div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <span class="footer-brand">🍱 ZeroHungry AI</span>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="ngo-dashboard.html">NGO Dashboard</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

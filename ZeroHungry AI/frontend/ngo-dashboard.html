@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NGO Dashboard – ZeroHungry AI</title>
+    <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+
+    <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+    <header class="navbar">
+        <div class="navbar-logo">🍱 ZeroHungry <span class="logo-ai">AI</span></div>
+        <nav class="navbar-links">
+            <a href="index.html"         class="nav-link">Home</a>
+            <a href="ngo-dashboard.html" class="nav-link active">Dashboard</a>
+            <a href="ngo-dashboard.html" class="nav-link">Donations</a>
+            <a href="ngo-register.html"  class="nav-link">Profile</a>
+        </nav>
+        <!-- NGO name shown when loaded from localStorage -->
+        <div class="navbar-ngo-name" id="navNgoName">🏢 NGO Dashboard</div>
+    </header>
+
+    <!-- ═══════════════════ PAGE HEADER ═══════════════════ -->
+    <div class="page-hero">
+        <h1>🏢 NGO Dashboard</h1>
+        <p>Review available food donations and respond within the time window.</p>
+    </div>
+
+    <main class="dashboard-page">
+
+        <!-- ═══════════════════ STATS ROW ═══════════════════ -->
+        <div class="dash-stats-row">
+            <div class="dash-stat-card">
+                <div class="dash-stat-icon">📦</div>
+                <div class="dash-stat-num" id="statAvailable">4</div>
+                <div class="dash-stat-lbl">Available</div>
+            </div>
+            <div class="dash-stat-card">
+                <div class="dash-stat-icon">✅</div>
+                <div class="dash-stat-num" id="statAccepted">12</div>
+                <div class="dash-stat-lbl">Accepted</div>
+            </div>
+            <div class="dash-stat-card">
+                <div class="dash-stat-icon">👥</div>
+                <div class="dash-stat-num" id="statPeopleFed">480</div>
+                <div class="dash-stat-lbl">People Fed</div>
+            </div>
+            <div class="dash-stat-card">
+                <div class="dash-stat-icon">⭐</div>
+                <div class="dash-stat-num" id="statMatchRate">94%</div>
+                <div class="dash-stat-lbl">Avg Match</div>
+            </div>
+        </div>
+
+        <!-- ═══════════════════ FILTER BAR ═══════════════════ -->
+        <div class="filter-bar">
+            <input  type="text"   id="dashSearch"        class="filter-input"  placeholder="🔍 Search food name or location…" />
+            <select id="dashCategory"                     class="filter-select">
+                <option value="">All Categories</option>
+                <option>Cooked Meal</option>
+                <option>Baked Goods</option>
+                <option>Raw Vegetables</option>
+                <option>Fruits</option>
+                <option>Dairy</option>
+                <option>Packaged Food</option>
+                <option>Beverages</option>
+            </select>
+            <select id="dashFreshness" class="filter-select">
+                <option value="">All Freshness</option>
+                <option value="Fresh">Fresh ✅</option>
+                <option value="Moderate">Moderate ⚠️</option>
+                <option value="Expiring Soon">Expiring Soon 🔴</option>
+            </select>
+        </div>
+
+        <!-- ═══════════════════ DONATION CARDS SECTION ═══════════════════ -->
+        <div class="section-header-row">
+            <h2 class="section-heading">Available Food Donations</h2>
+            <span class="results-count" id="dashResultsCount">Showing 4 donations</span>
+        </div>
+
+        <!--
+            Cards grid.
+            app.js populates this from localStorage (demo donations),
+            or falls back to hardcoded sample cards if none exist.
+        -->
+        <div class="cards-grid" id="dashCardsGrid">
+
+            <!-- ═════ SAMPLE CARD 1 ═════
+                 These hardcoded cards are shown as a demo when there
+                 is no localStorage data. app.js will later replace
+                 them with real data from the Spring Boot API.
+            -->
+            <div class="donation-card" data-id="ZH-0001"
+                 data-category="Cooked Meal" data-freshness="Fresh">
+
+                <!-- Freshness ribbon top-right -->
+                <div class="card-ribbon ribbon-fresh">✅ Fresh</div>
+
+                <!-- Match Score badge – top-left -->
+                <!--
+                    Match Score is a PROTOTYPE calculation based on:
+                    - Food category match with NGO preferences
+                    - Distance estimate
+                    - NGO capacity vs. donation servings
+                    - Time remaining before expiry
+                    It is NOT a quality ranking of NGOs.
+                    See app.js → calculateMatchScore()
+                -->
+                <div class="match-score-badge" id="match-ZH-0001">
+                    <span class="match-label">Match</span>
+                    <span class="match-value">94%</span>
+                </div>
+
+                <div class="card-header-area">
+                    <h3 class="card-food-name">Vegetable Biryani</h3>
+                    <span class="card-cat-badge">🍲 Cooked Meal</span>
+                </div>
+
+                <div class="card-details">
+                    <div class="card-detail-row">
+                        <span class="cd-icon">⚖️</span>
+                        <span class="cd-lbl">Quantity</span>
+                        <span class="cd-val">8 kg</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">👥</span>
+                        <span class="cd-lbl">Serves</span>
+                        <span class="cd-val">40 people</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">🍲</span>
+                        <span class="cd-lbl">Prep Type</span>
+                        <span class="cd-val">Cooked</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">🌡️</span>
+                        <span class="cd-lbl">Score</span>
+                        <span class="cd-val score-fresh">85 / 100</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">🌿</span>
+                        <span class="cd-lbl">Status</span>
+                        <span class="cd-val score-fresh">Fresh</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">⏰</span>
+                        <span class="cd-lbl">Expires</span>
+                        <span class="cd-val expiry-fresh">Today 8:00 PM</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">📍</span>
+                        <span class="cd-lbl">Location</span>
+                        <span class="cd-val">Koramangala, Bengaluru</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">📏</span>
+                        <span class="cd-lbl">Distance</span>
+                        <span class="cd-val">2.4 km away</span>
+                    </div>
+                </div>
+
+                <!-- Freshness bar -->
+                <div class="card-freshness-bar">
+                    <span class="cfb-label">Freshness</span>
+                    <div class="cfb-track">
+                        <div class="cfb-fill cfb-fresh" style="width:85%"></div>
+                    </div>
+                    <span class="cfb-pct">85%</span>
+                </div>
+
+                <!-- Time remaining chip -->
+                <div class="card-timer-chip">
+                    ⏱️ <span class="card-timer" id="timer-ZH-0001">09:45</span> to respond
+                </div>
+
+                <!-- Donor line -->
+                <div class="card-donor-row">
+                    <span>👤 Raj's Restaurant</span>
+                    <span class="card-phone">📞 98765 43210</span>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="card-actions">
+                    <button class="btn btn-success btn-card"
+                            onclick="ngoRespond('ZH-0001','accept','Vegetable Biryani')">
+                        ✅ ACCEPT
+                    </button>
+                    <button class="btn btn-danger btn-card"
+                            onclick="ngoRespond('ZH-0001','reject','Vegetable Biryani')">
+                        ✕ REJECT
+                    </button>
+                </div>
+
+            </div>
+            <!-- end CARD 1 -->
+
+            <!-- ═════ SAMPLE CARD 2 ═════ -->
+            <div class="donation-card" data-id="ZH-0002"
+                 data-category="Baked Goods" data-freshness="Moderate">
+
+                <div class="card-ribbon ribbon-moderate">⚠️ Moderate</div>
+                <div class="match-score-badge" id="match-ZH-0002">
+                    <span class="match-label">Match</span>
+                    <span class="match-value">78%</span>
+                </div>
+
+                <div class="card-header-area">
+                    <h3 class="card-food-name">Assorted Bread Loaves</h3>
+                    <span class="card-cat-badge">🥐 Baked Goods</span>
+                </div>
+
+                <div class="card-details">
+                    <div class="card-detail-row">
+                        <span class="cd-icon">⚖️</span><span class="cd-lbl">Quantity</span>
+                        <span class="cd-val">20 loaves</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">👥</span><span class="cd-lbl">Serves</span>
+                        <span class="cd-val">25 people</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">🥐</span><span class="cd-lbl">Prep Type</span>
+                        <span class="cd-val">Baked</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">🌡️</span><span class="cd-lbl">Score</span>
+                        <span class="cd-val score-moderate">58 / 100</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">🌿</span><span class="cd-lbl">Status</span>
+                        <span class="cd-val score-moderate">Moderate</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">⏰</span><span class="cd-lbl">Expires</span>
+                        <span class="cd-val expiry-warning">Today 6:00 PM</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">📍</span><span class="cd-lbl">Location</span>
+                        <span class="cd-val">Indiranagar, Bengaluru</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">📏</span><span class="cd-lbl">Distance</span>
+                        <span class="cd-val">4.1 km away</span>
+                    </div>
+                </div>
+
+                <div class="card-freshness-bar">
+                    <span class="cfb-label">Freshness</span>
+                    <div class="cfb-track">
+                        <div class="cfb-fill cfb-moderate" style="width:58%"></div>
+                    </div>
+                    <span class="cfb-pct">58%</span>
+                </div>
+
+                <div class="card-timer-chip">
+                    ⏱️ <span class="card-timer" id="timer-ZH-0002">07:20</span> to respond
+                </div>
+
+                <div class="card-donor-row">
+                    <span>👤 Daily Bread Bakery</span>
+                    <span class="card-phone">📞 91234 56789</span>
+                </div>
+
+                <div class="card-actions">
+                    <button class="btn btn-success btn-card"
+                            onclick="ngoRespond('ZH-0002','accept','Assorted Bread Loaves')">
+                        ✅ ACCEPT
+                    </button>
+                    <button class="btn btn-danger btn-card"
+                            onclick="ngoRespond('ZH-0002','reject','Assorted Bread Loaves')">
+                        ✕ REJECT
+                    </button>
+                </div>
+
+            </div>
+            <!-- end CARD 2 -->
+
+            <!-- ═════ SAMPLE CARD 3 ═════ -->
+            <div class="donation-card" data-id="ZH-0003"
+                 data-category="Fruits" data-freshness="Fresh">
+
+                <div class="card-ribbon ribbon-fresh">✅ Fresh</div>
+                <div class="match-score-badge" id="match-ZH-0003">
+                    <span class="match-label">Match</span>
+                    <span class="match-value">91%</span>
+                </div>
+
+                <div class="card-header-area">
+                    <h3 class="card-food-name">Mixed Seasonal Fruits</h3>
+                    <span class="card-cat-badge">🍎 Fruits</span>
+                </div>
+
+                <div class="card-details">
+                    <div class="card-detail-row">
+                        <span class="cd-icon">⚖️</span><span class="cd-lbl">Quantity</span>
+                        <span class="cd-val">15 kg</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">👥</span><span class="cd-lbl">Serves</span>
+                        <span class="cd-val">60 people</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">🥬</span><span class="cd-lbl">Prep Type</span>
+                        <span class="cd-val">Raw</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">🌡️</span><span class="cd-lbl">Score</span>
+                        <span class="cd-val score-fresh">92 / 100</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">🌿</span><span class="cd-lbl">Status</span>
+                        <span class="cd-val score-fresh">Fresh</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">⏰</span><span class="cd-lbl">Expires</span>
+                        <span class="cd-val expiry-fresh">Tomorrow 10:00 AM</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">📍</span><span class="cd-lbl">Location</span>
+                        <span class="cd-val">Jayanagar, Bengaluru</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">📏</span><span class="cd-lbl">Distance</span>
+                        <span class="cd-val">1.8 km away</span>
+                    </div>
+                </div>
+
+                <div class="card-freshness-bar">
+                    <span class="cfb-label">Freshness</span>
+                    <div class="cfb-track">
+                        <div class="cfb-fill cfb-fresh" style="width:92%"></div>
+                    </div>
+                    <span class="cfb-pct">92%</span>
+                </div>
+
+                <div class="card-timer-chip">
+                    ⏱️ <span class="card-timer" id="timer-ZH-0003">09:55</span> to respond
+                </div>
+
+                <div class="card-donor-row">
+                    <span>👤 Green Harvest Farms</span>
+                    <span class="card-phone">📞 99887 76655</span>
+                </div>
+
+                <div class="card-actions">
+                    <button class="btn btn-success btn-card"
+                            onclick="ngoRespond('ZH-0003','accept','Mixed Seasonal Fruits')">
+                        ✅ ACCEPT
+                    </button>
+                    <button class="btn btn-danger btn-card"
+                            onclick="ngoRespond('ZH-0003','reject','Mixed Seasonal Fruits')">
+                        ✕ REJECT
+                    </button>
+                </div>
+
+            </div>
+            <!-- end CARD 3 -->
+
+            <!-- ═════ SAMPLE CARD 4 ═════ -->
+            <div class="donation-card" data-id="ZH-0004"
+                 data-category="Packaged Food" data-freshness="Fresh">
+
+                <div class="card-ribbon ribbon-fresh">✅ Fresh</div>
+                <div class="match-score-badge" id="match-ZH-0004">
+                    <span class="match-label">Match</span>
+                    <span class="match-value">88%</span>
+                </div>
+
+                <div class="card-header-area">
+                    <h3 class="card-food-name">Packaged Biscuits &amp; Snacks</h3>
+                    <span class="card-cat-badge">📦 Packaged Food</span>
+                </div>
+
+                <div class="card-details">
+                    <div class="card-detail-row">
+                        <span class="cd-icon">⚖️</span><span class="cd-lbl">Quantity</span>
+                        <span class="cd-val">50 packets</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">👥</span><span class="cd-lbl">Serves</span>
+                        <span class="cd-val">50 people</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">📦</span><span class="cd-lbl">Prep Type</span>
+                        <span class="cd-val">Packaged</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">🌡️</span><span class="cd-lbl">Score</span>
+                        <span class="cd-val score-fresh">99 / 100</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">🌿</span><span class="cd-lbl">Status</span>
+                        <span class="cd-val score-fresh">Fresh</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">⏰</span><span class="cd-lbl">Expires</span>
+                        <span class="cd-val expiry-fresh">15 Jan 2025</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">📍</span><span class="cd-lbl">Location</span>
+                        <span class="cd-val">HSR Layout, Bengaluru</span>
+                    </div>
+                    <div class="card-detail-row">
+                        <span class="cd-icon">📏</span><span class="cd-lbl">Distance</span>
+                        <span class="cd-val">3.5 km away</span>
+                    </div>
+                </div>
+
+                <div class="card-freshness-bar">
+                    <span class="cfb-label">Freshness</span>
+                    <div class="cfb-track">
+                        <div class="cfb-fill cfb-fresh" style="width:99%"></div>
+                    </div>
+                    <span class="cfb-pct">99%</span>
+                </div>
+
+                <div class="card-timer-chip">
+                    ⏱️ <span class="card-timer" id="timer-ZH-0004">10:00</span> to respond
+                </div>
+
+                <div class="card-donor-row">
+                    <span>👤 Ananya Sharma</span>
+                    <span class="card-phone">📞 87654 32109</span>
+                </div>
+
+                <div class="card-actions">
+                    <button class="btn btn-success btn-card"
+                            onclick="ngoRespond('ZH-0004','accept','Packaged Biscuits & Snacks')">
+                        ✅ ACCEPT
+                    </button>
+                    <button class="btn btn-danger btn-card"
+                            onclick="ngoRespond('ZH-0004','reject','Packaged Biscuits & Snacks')">
+                        ✕ REJECT
+                    </button>
+                </div>
+
+            </div>
+            <!-- end CARD 4 -->
+
+        </div>
+        <!-- end #dashCardsGrid -->
+
+        <!-- No-results placeholder – shown by JS when filters match nothing -->
+        <div class="no-results hidden" id="dashNoResults">
+            <div class="no-results-icon">🔍</div>
+            <h3>No donations match your filters</h3>
+            <p>Try clearing the search or choosing a different category.</p>
+        </div>
+
+    </main>
+
+    <!-- Toast popup for accept/reject feedback -->
+    <div class="toast hidden" id="dashToast"></div>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <span class="footer-brand">🍱 ZeroHungry AI</span>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="ngo-register.html">Register NGO</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Donation Status – ZeroHungry AI</title>
+    <link rel="stylesheet" href="app.css" />
+</head>
+
+<body>
+
+    <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+    <header class="navbar">
+        <div class="navbar-logo">
+            🍱 ZeroHungry <span class="logo-ai">AI</span>
+        </div>
+
+        <nav class="navbar-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="my-donations.html" class="nav-link active">My Donations</a>
+            <a href="ngo-register.html" class="nav-link">NGO Login</a>
+        </nav>
+    </header>
+
+
+    <!-- ═══════════════════ PAGE HEADER ═══════════════════ -->
+    <div class="page-hero">
+        <h1>📦 Donation Status</h1>
+        <p>Track your food donation in real time.</p>
+    </div>
+
+
+    <!-- IMPORTANT:
+         id="donationStatusPage" added here
+    -->
+    <main class="status-page" id="donationStatusPage">
+
+
+        <!-- ═══════════════════ TOP SUMMARY CARD ═══════════════════ -->
+
+        <div class="status-summary-card">
+
+            <div class="status-summary-left">
+
+                <div class="status-donation-id">
+                    Donation ID:
+                    <strong id="statusDonationId">ZH-0001</strong>
+                </div>
+
+                <div class="status-food-name" id="statusFoodName">
+                    Vegetable Biryani
+                </div>
+
+                <div class="status-meta-row">
+
+                    <span>
+                        📦
+                        <span id="statusQuantity">8 kg</span>
+                    </span>
+
+                    <span>
+                        📍
+                        <span id="statusLocation">
+                            Koramangala, Bengaluru
+                        </span>
+                    </span>
+
+                    <span>
+                        👤
+                        <span id="statusDonorName">
+                            Raj's Restaurant
+                        </span>
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="status-summary-right">
+
+                <!-- Freshness score -->
+
+                <div
+                    class="mini-score-circle"
+                    id="statusScoreCircle"
+                >
+                    <span
+                        class="mini-score-num"
+                        id="statusScore"
+                    >
+                        85
+                    </span>
+
+                    <span class="mini-score-lbl">
+                        /100
+                    </span>
+                </div>
+
+
+                <div class="mini-score-label">
+                    Freshness Score
+                </div>
+
+
+                <!-- Status -->
+
+                <div
+                    class="status-badge status-waiting"
+                    id="statusBadge"
+                >
+                    ⏳ WAITING FOR NGO RESPONSE
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ═══════════════════ COUNTDOWN TIMER ═══════════════════ -->
+
+        <div
+            class="countdown-card"
+            id="countdownCard"
+        >
+
+            <div class="countdown-header">
+
+                <span class="countdown-icon">
+                    ⏱️
+                </span>
+
+                <span class="countdown-title">
+                    NGO Response Window
+                </span>
+
+            </div>
+
+
+            <div
+                class="countdown-timer"
+                id="countdownTimer"
+            >
+                10:00
+            </div>
+
+
+            <div class="countdown-sub">
+                Time remaining for NGOs to respond
+            </div>
+
+
+            <div class="countdown-bar-track">
+
+                <div
+                    class="countdown-bar-fill"
+                    id="countdownBarFill"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ═══════════════════ STATUS TIMELINE ═══════════════════ -->
+
+        <div class="timeline-section">
+
+            <h2 class="section-heading">
+                📋 Donation Timeline
+            </h2>
+
+
+            <div class="timeline">
+
+
+                <!-- VERIFIED -->
+
+                <div
+                    class="timeline-step timeline-step-done"
+                    id="step-verified"
+                >
+
+                    <div class="timeline-icon">
+                        ✅
+                    </div>
+
+                    <div class="timeline-body">
+
+                        <div class="timeline-title">
+                            Food Verified
+                        </div>
+
+                        <div class="timeline-sub">
+                            AI freshness check completed
+                        </div>
+
+                        <div
+                            class="timeline-time"
+                            id="timeVerified"
+                        >
+                            --
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="timeline-connector timeline-connector-done"
+                ></div>
+
+
+                <!-- SUBMITTED -->
+
+                <div
+                    class="timeline-step timeline-step-done"
+                    id="step-submitted"
+                >
+
+                    <div class="timeline-icon">
+                        📤
+                    </div>
+
+                    <div class="timeline-body">
+
+                        <div class="timeline-title">
+                            Donation Submitted
+                        </div>
+
+                        <div class="timeline-sub">
+                            Your donation is now in the system
+                        </div>
+
+                        <div
+                            class="timeline-time"
+                            id="timeSubmitted"
+                        >
+                            --
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="timeline-connector timeline-connector-done"
+                ></div>
+
+
+                <!-- NGO NOTIFIED -->
+
+                <div
+                    class="timeline-step timeline-step-done"
+                    id="step-notified"
+                >
+
+                    <div class="timeline-icon">
+                        📣
+                    </div>
+
+                    <div class="timeline-body">
+
+                        <div class="timeline-title">
+                            NGOs Notified
+                        </div>
+
+                        <div class="timeline-sub">
+                            Nearby NGOs have been alerted
+                        </div>
+
+                        <div
+                            class="timeline-time"
+                            id="timeNotified"
+                        >
+                            --
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="timeline-connector timeline-connector-active"
+                ></div>
+
+
+                <!-- WAITING -->
+
+                <div
+                    class="timeline-step timeline-step-active"
+                    id="step-waiting"
+                >
+
+                    <div class="timeline-icon">
+                        ⏳
+                    </div>
+
+                    <div class="timeline-body">
+
+                        <div class="timeline-title">
+                            Waiting for NGO Response
+                        </div>
+
+                        <div class="timeline-sub">
+                            NGOs are reviewing your donation
+                        </div>
+
+                        <div class="timeline-time">
+                            In progress…
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="timeline-connector"></div>
+
+
+                <!-- RESPONSE -->
+
+                <div
+                    class="timeline-step timeline-step-pending"
+                    id="step-response"
+                >
+
+                    <div class="timeline-icon">
+                        🤝
+                    </div>
+
+                    <div class="timeline-body">
+
+                        <div class="timeline-title">
+                            Accepted / Rejected
+                        </div>
+
+                        <div class="timeline-sub">
+                            NGO decision pending
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="timeline-connector"></div>
+
+
+                <!-- PICKUP -->
+
+                <div
+                    class="timeline-step timeline-step-pending"
+                    id="step-pickup"
+                >
+
+                    <div class="timeline-icon">
+                        🚗
+                    </div>
+
+                    <div class="timeline-body">
+
+                        <div class="timeline-title">
+                            Pickup Pending
+                        </div>
+
+                        <div class="timeline-sub">
+                            NGO will collect the food
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="timeline-connector"></div>
+
+
+                <!-- COMPLETED -->
+
+                <div
+                    class="timeline-step timeline-step-pending"
+                    id="step-completed"
+                >
+
+                    <div class="timeline-icon">
+                        🎉
+                    </div>
+
+                    <div class="timeline-body">
+
+                        <div class="timeline-title">
+                            Completed
+                        </div>
+
+                        <div class="timeline-sub">
+                            Food successfully donated!
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- ═══════════════════ FOOD DETAILS ═══════════════════ -->
+
+        <div class="detail-card">
+
+            <h2 class="section-heading">
+                🥘 Food Details
+            </h2>
+
+
+            <div
+                class="detail-grid"
+                id="statusDetailGrid"
+            >
+
+
+                <div class="detail-item">
+
+                    <span class="detail-lbl">
+                        Food Name
+                    </span>
+
+                    <span
+                        class="detail-val"
+                        id="detFoodName"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span class="detail-lbl">
+                        Category
+                    </span>
+
+                    <span
+                        class="detail-val"
+                        id="detCategory"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span class="detail-lbl">
+                        Quantity
+                    </span>
+
+                    <span
+                        class="detail-val"
+                        id="detQuantity"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span class="detail-lbl">
+                        Servings
+                    </span>
+
+                    <span
+                        class="detail-val"
+                        id="detServings"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span class="detail-lbl">
+                        Prep Type
+                    </span>
+
+                    <span
+                        class="detail-val"
+                        id="detPrepType"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span class="detail-lbl">
+                        Storage
+                    </span>
+
+                    <span
+                        class="detail-val"
+                        id="detStorage"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span class="detail-lbl">
+                        Prepared At
+                    </span>
+
+                    <span
+                        class="detail-val"
+                        id="detPrepTime"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span class="detail-lbl">
+                        Expires At
+                    </span>
+
+                    <span
+                        class="detail-val"
+                        id="detExpiryTime"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span class="detail-lbl">
+                        Freshness Score
+                    </span>
+
+                    <span
+                        class="detail-val"
+                        id="detScore"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span class="detail-lbl">
+                        Freshness Status
+                    </span>
+
+                    <span
+                        class="detail-val"
+                        id="detFreshStatus"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span class="detail-lbl">
+                        Created At
+                    </span>
+
+                    <span
+                        class="detail-val"
+                        id="detCreatedAt"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <span class="detail-lbl">
+                        Response Deadline
+                    </span>
+
+                    <span
+                        class="detail-val"
+                        id="detDeadline"
+                    >
+                        --
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- ═══════════════════ ACTION BUTTONS ═══════════════════ -->
+
+        <div class="status-actions">
+
+            <a
+                href="index.html"
+                class="btn btn-outline"
+            >
+                ← Verify Another Food
+            </a>
+
+
+            <a
+                href="my-donations.html"
+                class="btn btn-primary"
+            >
+                📋 All My Donations
+            </a>
+
+        </div>
+
+
+        <!-- ═══════════════════ EXPIRED NOTICE ═══════════════════ -->
+
+        <div
+            class="expired-notice hidden"
+            id="expiredNotice"
+        >
+            ⚠️ The 10-minute response window has expired.
+            NGOs were not available at this time.
+            You may re-submit the donation.
+        </div>
+
+
+    </main>
+
+
+    <!-- ═══════════════════ FOOTER ═══════════════════ -->
+
+    <footer class="footer">
+
+        <div class="footer-inner">
+
+            <span class="footer-brand">
+                🍱 ZeroHungry AI
+            </span>
+
+
+            <div class="footer-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="my-donations.html">
+                    My Donations
+                </a>
+
+                <a href="ngo-dashboard.html">
+                    NGO Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <script src="app.js"></script>
+
+</body>
+</html>
